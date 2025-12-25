@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok MP3 Downloader</title>
+    <title>TikTok MP3 Downloader - Download Audio dari TikTok</title>
     <style>
         * {
             margin: 0;
@@ -12,7 +12,7 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
@@ -34,11 +34,16 @@
         h1 {
             color: #333;
             margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         
         .subtitle {
             color: #666;
             margin-bottom: 30px;
+            line-height: 1.5;
         }
         
         .input-group {
@@ -51,12 +56,13 @@
             border: 2px solid #ddd;
             border-radius: 10px;
             font-size: 16px;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
         }
         
         input:focus {
             outline: none;
             border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         
         button {
@@ -69,7 +75,11 @@
             font-weight: bold;
             cursor: pointer;
             width: 100%;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         
         button:hover {
@@ -81,6 +91,7 @@
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
         
         .result {
@@ -89,6 +100,7 @@
             background: #f8f9fa;
             border-radius: 10px;
             display: none;
+            text-align: left;
         }
         
         .result.show {
@@ -103,6 +115,7 @@
         audio {
             width: 100%;
             border-radius: 10px;
+            outline: none;
         }
         
         .download-btn {
@@ -115,6 +128,8 @@
             font-weight: bold;
             margin-top: 10px;
             transition: background 0.3s;
+            width: 100%;
+            text-align: center;
         }
         
         .download-btn:hover {
@@ -129,7 +144,6 @@
             border-top: 3px solid #667eea;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-right: 10px;
         }
         
         @keyframes spin {
@@ -159,30 +173,109 @@
             margin-top: 20px;
             color: #666;
             font-size: 14px;
+            text-align: left;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .tips {
+            margin-top: 20px;
+            color: #666;
+            font-size: 12px;
+            text-align: left;
+        }
+        
+        .tips ul {
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+        
+        .tips li {
+            margin-bottom: 5px;
+        }
+        
+        .success {
+            color: #28a745;
+            margin-top: 10px;
+            padding: 10px;
+            background: #e6ffe6;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .success.show {
+            display: block;
+        }
+        
+        .audio-info {
+            margin-top: 10px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        .audio-info p {
+            margin: 5px 0;
+            color: #555;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎵 TikTok MP3 Downloader</h1>
-        <p class="subtitle">Download audio from TikTok videos for free</p>
+        <h1>
+            <span style="color: #FF0050;">TikTok</span>
+            <span>MP3 Downloader</span>
+        </h1>
+        <p class="subtitle">Download audio dari video TikTok secara gratis dan mudah</p>
         
         <div class="input-group">
-            <input type="text" id="urlInput" placeholder="Paste TikTok video URL here...">
+            <input type="text" id="urlInput" placeholder="Tempel link TikTok di sini...">
         </div>
         
-        <button id="downloadBtn">Download MP3</button>
+        <button id="downloadBtn">
+            <span id="buttonText">Download MP3</span>
+        </button>
         
         <div class="error" id="error"></div>
+        <div class="success" id="success"></div>
         
         <div class="result" id="result">
-            <h3>🎧 Audio Ready!</h3>
-            <div class="audio-preview" id="audioPreview"></div>
-            <a href="#" class="download-btn" id="audioDownload">Download MP3</a>
+            <h3>🎵 Audio Siap Didownload!</h3>
+            
+            <div class="audio-info">
+                <p id="audioTitle">Memuat informasi audio...</p>
+            </div>
+            
+            <div class="audio-preview" id="audioPreview">
+                <p>Memuat preview audio...</p>
+            </div>
+            
+            <a href="#" class="download-btn" id="audioDownload" target="_blank">
+                💾 Download MP3 Sekarang
+            </a>
+            
+            <p style="margin-top: 10px; font-size: 12px; color: #666;">
+                Klik tombol di atas untuk mendownload. Jika tidak berjalan, klik kanan dan pilih "Save link as..."
+            </p>
         </div>
         
         <div class="example">
-            Example: https://www.tiktok.com/@tiktok/video/7156033831819734314
+            <strong>Contoh URL yang valid:</strong><br>
+            • https://www.tiktok.com/@tiktok/video/7156033831819734314<br>
+            • https://vt.tiktok.com/ZSY5XrKqJ/<br>
+            • https://www.tiktok.com/@username/video/1234567890123456789
+        </div>
+        
+        <div class="tips">
+            <strong>Tips:</strong>
+            <ul>
+                <li>Buka aplikasi TikTok, tekan tombol "Share", lalu "Copy Link"</li>
+                <li>Tempel link di atas dan klik "Download MP3"</li>
+                <li>Audio akan otomatis didownload dalam format MP3</li>
+                <li>100% gratis tanpa registrasi</li>
+            </ul>
         </div>
     </div>
 
@@ -190,31 +283,35 @@
         document.addEventListener('DOMContentLoaded', function() {
             const urlInput = document.getElementById('urlInput');
             const downloadBtn = document.getElementById('downloadBtn');
+            const buttonText = document.getElementById('buttonText');
             const resultDiv = document.getElementById('result');
             const errorDiv = document.getElementById('error');
+            const successDiv = document.getElementById('success');
             const audioPreview = document.getElementById('audioPreview');
             const audioDownload = document.getElementById('audioDownload');
+            const audioTitle = document.getElementById('audioTitle');
             
-            // Example URL
+            // Set example URL
             urlInput.value = 'https://www.tiktok.com/@tiktok/video/7156033831819734314';
             
             downloadBtn.addEventListener('click', async function() {
                 const url = urlInput.value.trim();
                 
                 if (!url) {
-                    showError('Please enter a TikTok URL');
+                    showError('Harap masukkan URL TikTok');
                     return;
                 }
                 
-                if (!url.includes('tiktok.com')) {
-                    showError('Please enter a valid TikTok URL');
+                // Basic URL validation
+                if (!url.includes('tiktok.com') && !url.includes('vt.tiktok.com')) {
+                    showError('URL tidak valid. Harap masukkan link TikTok yang benar.');
                     return;
                 }
                 
-                // Show loading
-                downloadBtn.innerHTML = '<div class="loading"></div> Processing...';
-                downloadBtn.disabled = true;
+                // Show loading state
+                setLoadingState(true);
                 hideError();
+                hideSuccess();
                 hideResult();
                 
                 try {
@@ -222,7 +319,8 @@
                     const response = await fetch('/api/download', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
                         },
                         body: JSON.stringify({ url: url })
                     });
@@ -230,41 +328,103 @@
                     const data = await response.json();
                     
                     if (data.success) {
-                        // Show result
-                        audioPreview.innerHTML = `<audio controls><source src="${data.audioUrl}" type="audio/mpeg"></audio>`;
-                        audioDownload.href = data.downloadUrl;
-                        showResult();
+                        // Show success message
+                        showSuccess('Audio ditemukan! Siap didownload.');
+                        
+                        // Update audio info
+                        audioTitle.textContent = data.title || 'TikTok Audio';
+                        
+                        // Create audio player if URL is available
+                        if (data.audioUrl) {
+                            audioPreview.innerHTML = `
+                                <p>🎧 Preview Audio:</p>
+                                <audio controls style="width: 100%; margin-top: 10px;">
+                                    <source src="${data.audioUrl}" type="audio/mpeg">
+                                    Browser Anda tidak mendukung pemutar audio.
+                                </audio>
+                                <p style="font-size: 12px; color: #666; margin-top: 5px;">
+                                    Jika audio tidak dapat diputar, langsung download saja.
+                                </p>
+                            `;
+                            
+                            // Set download link
+                            audioDownload.href = data.downloadUrl;
+                            audioDownload.setAttribute('download', data.filename);
+                            
+                            // Show result
+                            showResult();
+                            
+                            // Auto-play audio (with user interaction)
+                            setTimeout(() => {
+                                const audioElement = audioPreview.querySelector('audio');
+                                if (audioElement) {
+                                    audioElement.volume = 0.5;
+                                    // Don't auto-play to respect user preferences
+                                }
+                            }, 500);
+                        } else {
+                            showError('URL audio tidak ditemukan dalam respons.');
+                        }
                     } else {
-                        showError(data.error || 'Failed to get audio');
+                        showError(data.message || 'Gagal mengambil audio. Coba lagi dengan link yang berbeda.');
                     }
                 } catch (error) {
-                    console.error(error);
-                    showError('Network error. Please try again.');
+                    console.error('Error:', error);
+                    showError('Terjadi kesalahan jaringan. Periksa koneksi internet Anda dan coba lagi.');
                 } finally {
-                    // Reset button
-                    downloadBtn.innerHTML = 'Download MP3';
-                    downloadBtn.disabled = false;
+                    // Reset button state
+                    setLoadingState(false);
                 }
             });
             
+            // Helper functions
             function showError(message) {
                 errorDiv.textContent = message;
                 errorDiv.classList.add('show');
-                resultDiv.classList.remove('show');
+                successDiv.classList.remove('show');
             }
             
             function hideError() {
                 errorDiv.classList.remove('show');
             }
             
+            function showSuccess(message) {
+                successDiv.textContent = message;
+                successDiv.classList.add('show');
+                errorDiv.classList.remove('show');
+            }
+            
+            function hideSuccess() {
+                successDiv.classList.remove('show');
+            }
+            
             function showResult() {
                 resultDiv.classList.add('show');
-                errorDiv.classList.remove('show');
             }
             
             function hideResult() {
                 resultDiv.classList.remove('show');
             }
+            
+            function setLoadingState(isLoading) {
+                if (isLoading) {
+                    downloadBtn.disabled = true;
+                    buttonText.innerHTML = '<div class="loading"></div> Mencari audio...';
+                } else {
+                    downloadBtn.disabled = false;
+                    buttonText.textContent = 'Download MP3';
+                }
+            }
+            
+            // Auto-focus input
+            urlInput.focus();
+            
+            // Handle Enter key
+            urlInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    downloadBtn.click();
+                }
+            });
         });
     </script>
 </body>
