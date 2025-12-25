@@ -1,141 +1,271 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Audio Downloader - Download MP3 dari TikTok</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/3046/3046126.png">
+    <title>TikTok MP3 Downloader</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .result.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        .audio-preview {
+            margin: 15px 0;
+        }
+        
+        audio {
+            width: 100%;
+            border-radius: 10px;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        
+        .download-btn:hover {
+            background: #218838;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .error {
+            color: #dc3545;
+            margin-top: 10px;
+            padding: 10px;
+            background: #ffe6e6;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .error.show {
+            display: block;
+        }
+        
+        .example {
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <div class="logo">
-                <i class="fab fa-tiktok"></i>
-                <h1>TikTok Audio Downloader</h1>
-            </div>
-            <p class="tagline">Download audio dari video TikTok dengan mudah dan gratis</p>
-        </header>
-
-        <main>
-            <div class="card">
-                <div class="card-header">
-                    <h2><i class="fas fa-music"></i> Download Audio TikTok MP3</h2>
-                    <p>Masukkan link video TikTok di bawah ini untuk mendapatkan file audio (MP3)</p>
-                </div>
-                
-                <div class="input-group">
-                    <div class="input-icon">
-                        <i class="fas fa-link"></i>
-                    </div>
-                    <input type="url" id="tiktokUrl" placeholder="https://www.tiktok.com/@username/video/1234567890" required>
-                    <button id="downloadBtn">
-                        <i class="fas fa-download"></i> Download Audio
-                    </button>
-                </div>
-                
-                <div class="instructions">
-                    <h3><i class="fas fa-info-circle"></i> Cara Menggunakan:</h3>
-                    <ol>
-                        <li>Buka aplikasi TikTok dan pilih video yang ingin diambil audionya</li>
-                        <li>Tekan tombol "Share" lalu pilih "Copy Link"</li>
-                        <li>Tempel link tersebut ke dalam form di atas</li>
-                        <li>Klik tombol "Download Audio"</li>
-                    </ol>
-                </div>
-            </div>
-
-            <div class="result-card hidden" id="resultCard">
-                <div class="result-header">
-                    <h3><i class="fas fa-check-circle"></i> Audio Siap Didownload!</h3>
-                </div>
-                <div class="result-body">
-                    <div class="audio-preview" id="audioPreview">
-                        <p>Memuat audio...</p>
-                    </div>
-                    <div class="download-options">
-                        <a class="download-btn" id="directDownload" target="_blank">
-                            <i class="fas fa-download"></i> Download MP3
-                        </a>
-                        <button class="secondary-btn" id="copyLink">
-                            <i class="fas fa-copy"></i> Salin Link
-                        </button>
-                        <button class="secondary-btn" id="resetBtn">
-                            <i class="fas fa-redo"></i> Coba Lagi
-                        </button>
-                    </div>
-                    <div class="file-info">
-                        <p><i class="fas fa-file-audio"></i> Format: MP3</p>
-                        <p><i class="fas fa-hdd"></i> Kualitas: Original</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="error-card hidden" id="errorCard">
-                <div class="error-header">
-                    <h3><i class="fas fa-exclamation-triangle"></i> Terjadi Kesalahan</h3>
-                </div>
-                <div class="error-body">
-                    <p id="errorMessage"></p>
-                    <button class="secondary-btn" id="tryAgainBtn">
-                        <i class="fas fa-redo"></i> Coba Lagi
-                    </button>
-                </div>
-            </div>
-
-            <div class="info-cards">
-                <div class="info-card">
-                    <i class="fas fa-shield-alt"></i>
-                    <h3>Aman & Gratis</h3>
-                    <p>100% gratis tanpa biaya tersembunyi. Tidak perlu registrasi.</p>
-                </div>
-                <div class="info-card">
-                    <i class="fas fa-bolt"></i>
-                    <h3>Cepat & Mudah</h3>
-                    <p>Proses download hanya membutuhkan waktu beberapa detik.</p>
-                </div>
-                <div class="info-card">
-                    <i class="fas fa-mobile-alt"></i>
-                    <h3>Kompatibel</h3>
-                    <p>Bisa digunakan di desktop, tablet, dan smartphone.</p>
-                </div>
-            </div>
-
-            <div class="faq">
-                <h2><i class="fas fa-question-circle"></i> Pertanyaan Umum</h2>
-                <div class="faq-item">
-                    <div class="faq-question">Apakah ini legal?</div>
-                    <div class="faq-answer">Alat ini hanya untuk penggunaan pribadi. Pastikan Anda menghormati hak cipta dan hanya mendownload konten yang Anda buat sendiri atau memiliki izin untuk mengunduhnya.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">Apakah perlu menginstal aplikasi?</div>
-                    <div class="faq-answer">Tidak perlu. Alat ini berjalan langsung di browser Anda tanpa perlu menginstal software tambahan.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">Berapa ukuran maksimal file yang bisa didownload?</div>
-                    <div class="faq-answer">Tidak ada batasan ukuran. Anda bisa mendownload audio dari video TikTok berdurasi panjang sekalipun.</div>
-                </div>
-            </div>
-        </main>
-
-        <footer>
-            <p>Disclaimer: Alat ini tidak berafiliasi dengan TikTok. Gunakan dengan bijak.</p>
-            <p class="copyright">© 2023 TikTok Audio Downloader. Dibuat dengan <i class="fas fa-heart"></i></p>
-            <div class="footer-links">
-                <a href="#" id="statusLink">Status Server</a>
-                <a href="#" id="reportLink">Lapor Masalah</a>
-            </div>
-        </footer>
+        <h1>🎵 TikTok MP3 Downloader</h1>
+        <p class="subtitle">Download audio from TikTok videos for free</p>
+        
+        <div class="input-group">
+            <input type="text" id="urlInput" placeholder="Paste TikTok video URL here...">
+        </div>
+        
+        <button id="downloadBtn">Download MP3</button>
+        
+        <div class="error" id="error"></div>
+        
+        <div class="result" id="result">
+            <h3>🎧 Audio Ready!</h3>
+            <div class="audio-preview" id="audioPreview"></div>
+            <a href="#" class="download-btn" id="audioDownload">Download MP3</a>
+        </div>
+        
+        <div class="example">
+            Example: https://www.tiktok.com/@tiktok/video/7156033831819734314
+        </div>
     </div>
 
-    <div class="notification hidden" id="notification">
-        <p id="notificationText"></p>
-    </div>
-
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlInput = document.getElementById('urlInput');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const resultDiv = document.getElementById('result');
+            const errorDiv = document.getElementById('error');
+            const audioPreview = document.getElementById('audioPreview');
+            const audioDownload = document.getElementById('audioDownload');
+            
+            // Example URL
+            urlInput.value = 'https://www.tiktok.com/@tiktok/video/7156033831819734314';
+            
+            downloadBtn.addEventListener('click', async function() {
+                const url = urlInput.value.trim();
+                
+                if (!url) {
+                    showError('Please enter a TikTok URL');
+                    return;
+                }
+                
+                if (!url.includes('tiktok.com')) {
+                    showError('Please enter a valid TikTok URL');
+                    return;
+                }
+                
+                // Show loading
+                downloadBtn.innerHTML = '<div class="loading"></div> Processing...';
+                downloadBtn.disabled = true;
+                hideError();
+                hideResult();
+                
+                try {
+                    // Call our API
+                    const response = await fetch('/api/download', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ url: url })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        // Show result
+                        audioPreview.innerHTML = `<audio controls><source src="${data.audioUrl}" type="audio/mpeg"></audio>`;
+                        audioDownload.href = data.downloadUrl;
+                        showResult();
+                    } else {
+                        showError(data.error || 'Failed to get audio');
+                    }
+                } catch (error) {
+                    console.error(error);
+                    showError('Network error. Please try again.');
+                } finally {
+                    // Reset button
+                    downloadBtn.innerHTML = 'Download MP3';
+                    downloadBtn.disabled = false;
+                }
+            });
+            
+            function showError(message) {
+                errorDiv.textContent = message;
+                errorDiv.classList.add('show');
+                resultDiv.classList.remove('show');
+            }
+            
+            function hideError() {
+                errorDiv.classList.remove('show');
+            }
+            
+            function showResult() {
+                resultDiv.classList.add('show');
+                errorDiv.classList.remove('show');
+            }
+            
+            function hideResult() {
+                resultDiv.classList.remove('show');
+            }
+        });
+    </script>
 </body>
 </html>
