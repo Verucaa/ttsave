@@ -7,9 +7,11 @@
     "node": "20.x"
   },
   "scripts": {
+    "build": "echo 'Building TikTok Audio Downloader...'",
     "dev": "vercel dev",
-    "start": "vercel dev",
-    "deploy": "vercel --prod"
+    "deploy": "vercel --prod",
+    "clean": "rm -rf node_modules package-lock.json .vercel",
+    "reinstall": "npm run clean && npm install"
   },
   "dependencies": {
     "axios": "^1.7.7"
