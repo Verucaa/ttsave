@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Audio Downloader - Download MP3 dari TikTok</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/3046/3046126.png">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fab fa-tiktok"></i>
+                <h1>TikTok Audio Downloader</h1>
+            </div>
+            <p class="tagline">Download audio dari video TikTok dengan mudah dan gratis</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-music"></i> Download Audio TikTok MP3</h2>
+                    <p>Masukkan link video TikTok di bawah ini untuk mendapatkan file audio (MP3)</p>
+                </div>
+                
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <input type="url" id="tiktokUrl" placeholder="https://www.tiktok.com/@username/video/1234567890" required>
+                    <button id="downloadBtn">
+                        <i class="fas fa-download"></i> Download Audio
+                    </button>
+                </div>
+                
+                <div class="instructions">
+                    <h3><i class="fas fa-info-circle"></i> Cara Menggunakan:</h3>
+                    <ol>
+                        <li>Buka aplikasi TikTok dan pilih video yang ingin diambil audionya</li>
+                        <li>Tekan tombol "Share" lalu pilih "Copy Link"</li>
+                        <li>Tempel link tersebut ke dalam form di atas</li>
+                        <li>Klik tombol "Download Audio"</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="result-card hidden" id="resultCard">
+                <div class="result-header">
+                    <h3><i class="fas fa-check-circle"></i> Audio Siap Didownload!</h3>
+                </div>
+                <div class="result-body">
+                    <div class="audio-preview" id="audioPreview">
+                        <p>Memuat audio...</p>
+                    </div>
+                    <div class="download-options">
+                        <a class="download-btn" id="directDownload" target="_blank">
+                            <i class="fas fa-download"></i> Download MP3
+                        </a>
+                        <button class="secondary-btn" id="copyLink">
+                            <i class="fas fa-copy"></i> Salin Link
+                        </button>
+                        <button class="secondary-btn" id="resetBtn">
+                            <i class="fas fa-redo"></i> Coba Lagi
+                        </button>
+                    </div>
+                    <div class="file-info">
+                        <p><i class="fas fa-file-audio"></i> Format: MP3</p>
+                        <p><i class="fas fa-hdd"></i> Kualitas: Original</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="error-card hidden" id="errorCard">
+                <div class="error-header">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Terjadi Kesalahan</h3>
+                </div>
+                <div class="error-body">
+                    <p id="errorMessage"></p>
+                    <button class="secondary-btn" id="tryAgainBtn">
+                        <i class="fas fa-redo"></i> Coba Lagi
+                    </button>
+                </div>
+            </div>
+
+            <div class="info-cards">
+                <div class="info-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Aman & Gratis</h3>
+                    <p>100% gratis tanpa biaya tersembunyi. Tidak perlu registrasi.</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Cepat & Mudah</h3>
+                    <p>Proses download hanya membutuhkan waktu beberapa detik.</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Kompatibel</h3>
+                    <p>Bisa digunakan di desktop, tablet, dan smartphone.</p>
+                </div>
+            </div>
+
+            <div class="faq">
+                <h2><i class="fas fa-question-circle"></i> Pertanyaan Umum</h2>
+                <div class="faq-item">
+                    <div class="faq-question">Apakah ini legal?</div>
+                    <div class="faq-answer">Alat ini hanya untuk penggunaan pribadi. Pastikan Anda menghormati hak cipta dan hanya mendownload konten yang Anda buat sendiri atau memiliki izin untuk mengunduhnya.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Apakah perlu menginstal aplikasi?</div>
+                    <div class="faq-answer">Tidak perlu. Alat ini berjalan langsung di browser Anda tanpa perlu menginstal software tambahan.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Berapa ukuran maksimal file yang bisa didownload?</div>
+                    <div class="faq-answer">Tidak ada batasan ukuran. Anda bisa mendownload audio dari video TikTok berdurasi panjang sekalipun.</div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Disclaimer: Alat ini tidak berafiliasi dengan TikTok. Gunakan dengan bijak.</p>
+            <p class="copyright">© 2023 TikTok Audio Downloader. Dibuat dengan <i class="fas fa-heart"></i></p>
+            <div class="footer-links">
+                <a href="#" id="statusLink">Status Server</a>
+                <a href="#" id="reportLink">Lapor Masalah</a>
+            </div>
+        </footer>
+    </div>
+
+    <div class="notification hidden" id="notification">
+        <p id="notificationText"></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
